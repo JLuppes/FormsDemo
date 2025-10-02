@@ -4,17 +4,17 @@
 
 <div>
   <h3>Your Profile Information:</h3>
-  <p><strong>Name:</strong> {{ name }}</p>
-  <p><strong>Email:</strong> {{ email }}</p>
-  <p><strong>Total Guests:</strong> {{ quan }}</p>
+  <p><strong>{{form.name.label}}:</strong> {{ form.name.data }}</p>
+  <p><strong>{{form.email.label}}:</strong> {{ form.email.data }}</p>
+  <p><strong>{{form.quan.label}}:</strong> {{ form.quan.data }}</p>
   <p>
-    <strong>Comments or Issues:</strong> {{ comments if comments else "Not
-    provided" }}
+    <strong>{{form.comments.label}}:</strong> {{ form.comments.data if
+    form.comments.data else "Not provided" }}
   </p>
-  <p><strong>Relationship to me:</strong> {{ rel }}</p>
+  <p><strong>{{form.rel.label}}:</strong> {{ form.rel.data }}</p>
   <p>
-    <strong>Accommodations Required:</strong> {{ "Yes" if accommodations else
-    "No" }}
+    <strong>{{form.accommodations.label}}:</strong> {{ "Yes" if
+    form.accommodations.data else "No" }}
   </p>
 </div>
 

@@ -1,36 +1,40 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask_wtf import FlaskForm
+from wtforms import validators, StringField, IntegerField, BooleanField, EmailField, RadioField
+
 
 app = Flask(__name__)
 
 app.secret_key = 'top-secret'
 
+
 @app.route('/')
 def index():
     return redirect(url_for('profile'))
 
+
+class ProfileForm(FlaskForm):
+    name = StringField('Name', [validators.InputRequired(
+        message="Please enter your name!")])
+    email = EmailField('email', [validators.Email(
+        message="That\'s not a valid email!")])
+    quan = IntegerField('quan', [validators.NumberRange(
+        min=1, max=10, message="Please choose between 1 and 10!")])
+    comments = StringField('comments', [validators.Length(
+        min=0, max=100, message="Please keep your comments brief!")])
+    rel = RadioField('rel', choices=["first", "second"])
+    accommodations = BooleanField('Accommodations', [validators.AnyOf(
+        [True, False], message="Do you need accommodations?")])
+
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    if request.method == 'POST':
-        name = request.form.get('name', '').strip()
-        email = request.form.get('email', '').strip()
-        quan = request.form.get('quan', '').strip()
-        comments = request.form.get('comments', '').strip()
-        rel = request.form.get('rel', '').strip()
-        accommodations = request.form.get('accommodations') == "yes"  # True if checked
-        
-        # Validation
-        if not name or not email or not quan or not rel:
-            error = "Please fill in all required fields"
-            return render_template('profileForm.html', error=error)
-        
+    form = ProfileForm()
+    if form.validate_on_submit():
+
         return render_template(
             'profileSuccess.html',
-            name=name,
-            email=email,
-            quan=quan,
-            comments=comments,
-            rel=rel,
-            accommodations=accommodations
+            form=form
         )
-    
-    return render_template('profileForm.html')
+
+    return render_template('profileForm.html', form=form)
