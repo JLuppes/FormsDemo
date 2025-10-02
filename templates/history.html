@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block title %}{{super()}} - History{% endblock %}
+{% block content %} {% if history%}
+<ul>
+  {% for i in range (0,len) %}
+  <h3>Entry #{{i+1}}</h3>
+  <p>Name: {{history[i].name}}</p>
+  <p>Email: {{history[i].email}}</p>
+  <p>Total Guests: {{history[i].name}}</p>
+  <p>Comments or Issues: {{history[i].name}}</p>
+  <p>Relationship: {{history[i].name}}</p>
+  <p>Accommodations Required: {{history[i].name}}</p>
+  <hr />
+  {% endfor %}
+</ul>
+
+{%else%}
+
+<h3>No History Found!</h3>
+
+{%endif%} {% endblock %}
