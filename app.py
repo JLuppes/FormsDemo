@@ -39,8 +39,8 @@ def profile():
             error = "Please fill in all required fields"
             return render_template('profileForm.html', error=error)
 
-        historyList.append(HistoryObject(name, email, quan,
-                                         comments, rel, accommodations))
+        historyList.append(HistoryObject(
+            name, email, quan, comments, rel, accommodations))
 
         return render_template(
             'profileSuccess.html',
