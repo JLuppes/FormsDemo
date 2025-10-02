@@ -12,7 +12,12 @@
       href="{{ url_for('static', filename='style.css')}}"
     />
   </head>
+
   <body>
+    <nav>
+      <a href="{{url_for('profile')}}">Profile</a>
+      <a href="{{url_for('history')}}">History</a>
+    </nav>
     {% block content %}{% endblock %}
   </body>
 </html>
