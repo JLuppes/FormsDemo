@@ -2,13 +2,14 @@
 block content %}
 
 <h2>User Profile</h2>
-
+{#
 <p>Hidden Tags:</p>
-{{ form.hidden_tag() }} {% if form.errors %}
+{{ form.hidden_tag() }} #} {% if form.errors %}
 <ul class="error">
-  {% for error in form.errors%}
-  <li>{{error}}</li>
-  {% endfor %}
+  {% for field_name, field_errors in form.errors|dictsort if field_errors %} {%
+  for error in field_errors %}
+  <li>{{ form[field_name].label }}: {{ error }}</li>
+  {% endfor %} {% endfor %}
 </ul>
 {% endif %}
 
@@ -20,6 +21,7 @@ block content %}
   <div>{{ form.comments.label }} {{form.comments(size=20)}}</div>
   <div>{{ form.rel.label }} {{form.rel(size=20)}}</div>
   <div>{{ form.accommodations.label }} {{form.accommodations(size=20)}}</div>
+  <div>{{ form.faveColor.label }} {{form.faveColor()}}</div>
 
   <button type="submit">Save Profile</button>
 </form>

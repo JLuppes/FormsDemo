@@ -16,6 +16,7 @@
     <strong>{{form.accommodations.label}}:</strong> {{ "Yes" if
     form.accommodations.data else "No" }}
   </p>
+  <p><strong>{{form.faveColor.label}}:</strong> {{ form.faveColor.data }}</p>
 </div>
 
 <a href="{{ url_for('profile') }}">Create Another Profile</a>
