@@ -5,12 +5,29 @@ This is a demo project for using forms in Flask applications.
 ## Running
 
 - Set up a Python virtual environment
-  - `python -m venv venv`
-  - `venv\scripts\activate`
+
+  ```bash
+  python -m venv venv
+  venv\scripts\activate
+  ```
+
 - Install project dependencies
-  - `pip install -r requirements.txt`
+
+  ```bash
+  pip install -r requirements.txt
+  ```
+
 - Create your `.env` file
-- Run the app with `flask run`
+
+  ```bash
+  cp .env-sample .env
+  ```
+
+- Run the app
+
+  ```bash
+  flask run --debug
+  ```
 
 ## Developing Your Own Version
 
@@ -21,4 +38,6 @@ To develop your own version of this project, you can `clone` or `fork` this repo
 
 ## Branches
 
-Currently only the `main` branch exists, which includes all features.
+- `main`: Includes all the regular demo code, with a profile page and matching results page.
+- `HistoryPage`: Adds a page to show all (in-memory) submissions to the profile form.
+- `WTForms`: Adds integration for the [WTForms](https://wtforms.readthedocs.io/en/3.2.x/) library (via [Flask_WTF](https://flask-wtf.readthedocs.io/en/1.2.x/)) for more powerful validation and input widgets.
