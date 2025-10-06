@@ -4,9 +4,11 @@ app = Flask(__name__)
 
 app.secret_key = 'top-secret'
 
+
 @app.route('/')
 def index():
     return redirect(url_for('profile'))
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -16,13 +18,14 @@ def profile():
         quan = request.form.get('quan', '').strip()
         comments = request.form.get('comments', '').strip()
         rel = request.form.get('rel', '').strip()
-        accommodations = request.form.get('accommodations') == "yes"  # True if checked
-        
+        accommodations = request.form.get(
+            'accommodations') == "yes"  # True if checked
+
         # Validation
         if not name or not email or not quan or not rel:
             error = "Please fill in all required fields"
             return render_template('profileForm.html', error=error)
-        
+
         return render_template(
             'profileSuccess.html',
             name=name,
@@ -32,5 +35,24 @@ def profile():
             rel=rel,
             accommodations=accommodations
         )
-    
+
     return render_template('profileForm.html')
+
+
+@app.route('/feedback', methods=['GET', 'POST'])
+def feedback():
+    if request.method == 'POST':
+        rating = request.form.get('rating', '').strip()
+        comment_text = request.form.get('feedback', '').strip()
+
+        if not rating:
+            error = "Please provide a rating"
+            return render_template('feedbackForm.html', error=error)
+
+        return render_template(
+            'feedbackSuccess.html',
+            rating=rating,
+            comment=comment_text
+        )
+
+    return render_template('feedbackForm.html')
