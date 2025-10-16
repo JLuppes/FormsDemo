@@ -36,8 +36,8 @@ endblock%} {% block content %}
     <th>Accommodations</th>
     <th>Comments</th>
     <th>Created At</th>
-    <th>Edit</th>
-    <th>Delete</th>
+<th>Edit</th>
+<th>Delete</th>
   </tr>
   {% for profile in profiles %}
   <tr>
@@ -49,15 +49,21 @@ endblock%} {% block content %}
     <td>{{ profile.accommodations }}</td>
     <td>{{ profile.comments }}</td>
     <td>{{ profile.created_at }}</td>
-    <td><button>Edit</button></td>
-    <td>
-      <div>
-        <form method="POST" action="{{url_for('admin_profilesDeleteButton')}}">
-          <input name="profileId" type="hidden" value="{{profile.id}}" />
-          <button type="submit">Delete</button>
-        </form>
-      </div>
-    </td>
+<td>
+  <div>
+    <a href="{{url_for('admin_profiles_edit')}}?profileId={{profile.id}}"
+      ><button>Edit</button></a
+    >
+  </div>
+</td>
+<td>
+  <div>
+    <form method="POST" action="{{url_for('admin_profilesDeleteButton')}}">
+      <input name="profileId" type="hidden" value="{{profile.id}}" />
+      <button type="submit">Delete</button>
+    </form>
+  </div>
+</td>
   </tr>
   {% endfor %}
 </table>

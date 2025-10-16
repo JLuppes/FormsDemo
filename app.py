@@ -229,6 +229,56 @@ def admin_profilesDeleteButton():
         return render_template('admin_profiles.html', profiles=profiles, error=error)
 
 
+@app.route('/admin/profiles/edit', methods=['GET', 'POST'])
+def admin_profiles_edit():
+    if request.method == 'POST':
+        profileId = request.form.get("profileId", '', type=int)
+
+        if not profileId:
+            error = "No profile id provided."
+            profiles = Profile.query.all()
+            return redirect(url_for('admin_profiles_edit')+f'?profileId={profileId}', error=error)
+            # return render_template('admin_profiles.html', profiles=profiles, error=error)
+
+        profileToUpdate = Profile.query.filter_by(id=profileId).first()
+
+        if not profileToUpdate:
+            error = f"No profile with id {profileId} found."
+            profiles = Profile.query.all()
+            return render_template('admin_profiles.html', profiles=profiles, error=error)
+
+        try:
+            profileToUpdate.name = request.form.get('name', profileToUpdate.name)
+            profileToUpdate.email = request.form.get('email', profileToUpdate.email)
+            profileToUpdate.quan = request.form.get('quan', profileToUpdate.quan)
+            profileToUpdate.rel = request.form.get('rel', profileToUpdate.rel)
+            profileToUpdate.accommodations = request.form.get('accommodations', False) == 'yes'
+            profileToUpdate.comments = request.form.get('comments', profileToUpdate.comments)
+            db.session.commit()
+            return redirect(url_for('admin_profiles'))
+        except Exception as e:
+            db.session.rollback()
+            error = f"Error writing changes to database: {str(e)}"
+            profiles = Profile.query.all()
+            return render_template("admin_profiles.html", profiles=profiles, error=error)
+
+    profileId = request.args.get('profileId')
+
+    if not profileId:
+        error = "No profile id provided."
+        profiles = Profile.query.all()
+        return render_template('admin_profiles.html', profiles=profiles, error=error)
+
+    profileToEdit = Profile.query.filter_by(id=profileId).first()
+
+    if not profileToEdit:
+        error = f"No profile found with id {profileId}."
+        profiles = Profile.query.all()
+        return render_template('admin_profiles.html', profiles=profiles, error=error)
+
+    return render_template('profileEdit.html', profile=profileToEdit)
+
+
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     method = request.form.get('requestMethod', '')
