@@ -205,6 +205,30 @@ def admin_profiles_appendComments():
         return render_template('admin_profiles.html', profiles=profiles, error=errorMsg)
 
 
+@app.route('/admin/profiles/deleteButton', methods=['POST'])
+def admin_profilesDeleteButton():
+    try:
+        profileId = request.form.get('profileId', '').strip()
+
+        profile_to_delete = Profile.query.filter_by(id=profileId).first()
+
+        if not profile_to_delete:
+            error = f"No profiles found with the specified id found."
+            profiles = Profile.query.all()
+            return render_template('admin_profiles.html', profiles=profile, error=error)
+
+        db.session.delete(profile_to_delete)
+
+        db.session.commit()
+
+        return redirect(url_for('admin_profiles'))
+
+    except Exception as e:
+        error = f"Error deleting profile: {str(e)}"
+        profiles = Profile.query.all()
+        return render_template('admin_profiles.html', profiles=profiles, error=error)
+
+
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     method = request.form.get('requestMethod', '')
